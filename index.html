@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레이저 사격 수업</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#151a2d; --muted:#5b6275; --line:#e3e6ef;
+  --navy:#16204a; --laser:#e11d48; --laser-soft:#ffe4ea;
+  --rear:#2563eb; --rear-soft:#e0eaff;      /* 가늠자 = 파랑 */
+  --front:#e11d48; --front-soft:#ffe4ea;    /* 가늠쇠 = 빨강 */
+  --ok:#16a34a; --ok-soft:#dcfce7; --warn:#d97706; --warn-soft:#fef3c7;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;font-family:"Noto Sans KR",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;word-break:keep-all}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+
+/* 상단 메뉴 */
+nav{position:sticky;top:0;z-index:50;background:rgba(22,32,74,.96);backdrop-filter:blur(6px)}
+nav .in{max-width:1180px;margin:0 auto;display:flex;gap:4px;align-items:center;padding:8px 16px;overflow-x:auto;scrollbar-width:none}
+nav .in::-webkit-scrollbar{display:none}
+nav .logo{color:#fff;font-weight:900;margin-right:10px;white-space:nowrap;display:flex;align-items:center;gap:6px}
+nav .logo i{width:10px;height:10px;border-radius:50%;background:var(--laser);box-shadow:0 0 10px var(--laser)}
+nav a{color:#cdd5f5;text-decoration:none;padding:7px 12px;border-radius:999px;font-size:14px;white-space:nowrap;font-weight:500}
+nav a:hover,nav a.on{background:rgba(255,255,255,.14);color:#fff}
+
+/* 공통 */
+section{max-width:1180px;margin:0 auto;padding:56px 16px 24px}
+.eyebrow{display:inline-block;font-weight:700;font-size:13px;letter-spacing:.08em;color:var(--laser);background:var(--laser-soft);padding:4px 10px;border-radius:999px}
+h2{font-size:clamp(26px,4vw,38px);margin:10px 0 8px;font-weight:900;letter-spacing:-.02em}
+h3{font-size:20px;margin:0 0 8px}
+.lead{color:var(--muted);font-size:17px;margin:0 0 24px;max-width:780px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (max-width:900px){.g3,.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}}
+.rear{color:var(--rear);font-weight:700}
+.front{color:var(--front);font-weight:700}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.pill.rear{background:var(--rear-soft)}
+.pill.front{background:var(--front-soft)}
+.btn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:12px;font-weight:700;font-size:14px;color:var(--ink);transition:.15s}
+.btn:hover{border-color:#b9c0d4;transform:translateY(-1px)}
+.btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.red{background:var(--laser);border-color:var(--laser);color:#fff}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.tip{border-radius:14px;padding:12px 16px;font-size:15px}
+.tip.ok{background:var(--ok-soft);color:#14532d}
+.tip.warn{background:var(--warn-soft);color:#78350f}
+.tip.info{background:#eef2ff;color:#1e2a6b}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:900;font-size:15px;flex:none}
+
+/* 히어로 */
+.hero{background:radial-gradient(1200px 500px at 80% -10%,#3a1450 0,transparent 60%),linear-gradient(135deg,#0d1433,#16204a 60%,#1d2b63);color:#fff}
+.hero .in{max-width:1180px;margin:0 auto;padding:64px 16px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+@media (max-width:820px){.hero .in{grid-template-columns:1fr}}
+.hero svg{width:100%;max-width:420px;margin:0 auto;display:block}
+@media (max-width:820px){.hero svg{max-width:260px}}
+.hero h1{font-size:clamp(34px,6vw,60px);line-height:1.15;margin:12px 0;font-weight:900;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;color:#ff6b8b;text-shadow:0 0 24px rgba(255,60,100,.6)}
+.hero p{color:#c7cff0;font-size:18px;margin:0 0 22px}
+.hero .chips{display:flex;flex-wrap:wrap;gap:8px}
+.hero .chips a{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px}
+.hero .chips a.main{background:var(--laser);border-color:var(--laser)}
+
+/* 장비 */
+.equip svg{width:100%;height:auto;display:block}
+.part-list{display:grid;gap:8px;margin-top:12px}
+.part{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);cursor:pointer;transition:.15s}
+.part:hover,.part.on{border-color:var(--navy);background:#f3f5ff}
+.part b{min-width:64px}
+.part span{color:var(--muted);font-size:14px}
+.hot{cursor:pointer}
+.hot circle.dot{transition:.2s}
+.hot.on circle.dot{r:13}
+
+/* 순서 스텝 */
+.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:16px}
+@media (max-width:820px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.step{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 8px;text-align:center;font-weight:700;font-size:15px}
+.step small{display:block;color:var(--muted);font-weight:500;font-size:12px}
+.step.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.step.on small{color:#c7cff0}
+.step-body{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+@media (max-width:760px){.step-body{grid-template-columns:1fr}}
+.step-body ul{padding-left:20px;margin:8px 0}
+.step-body li{margin:4px 0}
+.step-body svg{width:100%;height:auto;max-height:300px}
+
+/* 가늠자·가늠쇠 */
+.sim-wrap{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+@media (max-width:900px){.sim-wrap{grid-template-columns:1fr}}
+#sightSvg{width:100%;height:auto;display:block;border-radius:14px;touch-action:none;cursor:grab;background:#cfe3f5}
+#sightSvg:active{cursor:grabbing}
+#impactSvg{width:100%;max-width:280px;height:auto;display:block;margin:0 auto}
+.fb{font-size:16px;font-weight:700;min-height:52px}
+.meter{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-top:6px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:7px 12px;font-weight:700;font-size:14px}
+.seg button.on{background:var(--navy);color:#fff}
+.lbl{font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px}
+input[type=range]{width:100%;accent-color:var(--laser)}
+.big-num{font-size:40px;font-weight:900;color:var(--laser);line-height:1.1}
+.quiz-q{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:center}
+@media (max-width:640px){.quiz-q{grid-template-columns:1fr}}
+.quiz-q svg{width:100%;border-radius:12px;background:#cfe3f5}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-opts .btn.right{background:var(--ok);color:#fff;border-color:var(--ok)}
+.quiz-opts .btn.wrong{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+
+/* 3D 파지 */
+.viewer{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#e9eef8,#cdd6ea);height:520px}
+@media (max-width:640px){.viewer{height:400px}}
+#three{width:100%;height:100%;display:block;touch-action:none}
+.v-labels{position:absolute;inset:0;pointer-events:none}
+.v-lab{position:absolute;transform:translate(-50%,-120%);background:rgba(21,26,45,.88);color:#fff;font-size:12px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap}
+.v-lab::after{content:"";position:absolute;left:50%;bottom:-6px;width:2px;height:6px;background:rgba(21,26,45,.88)}
+.v-lab.r{background:var(--rear)} .v-lab.r::after{background:var(--rear)}
+.v-lab.f{background:var(--front)} .v-lab.f::after{background:var(--front)}
+.v-hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:#3b4560;background:rgba(255,255,255,.75);padding:4px 10px;border-radius:999px}
+.v-warn{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:var(--laser);color:#fff;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;display:none}
+.v-err{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;color:var(--muted)}
+.check li{margin:6px 0}
+.check{list-style:none;padding:0;margin:0}
+.check li{display:flex;gap:10px;align-items:flex-start}
+.check li::before{content:"✔";color:var(--ok);font-weight:900}
+
+/* 격발 게임 */
+#game{width:100%;height:auto;display:block;border-radius:14px;background:#0f1530;touch-action:none}
+.hold{user-select:none;-webkit-user-select:none;touch-action:none;padding:14px 18px;font-size:16px}
+.shots{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.shots span{min-width:38px;text-align:center;padding:4px 6px;border-radius:8px;background:#eef1f8;font-weight:700;font-size:14px}
+.shots span.ft{outline:2px solid var(--ok)}
+.share{display:flex;gap:18px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.share>div:last-child{flex:1;min-width:240px}
+.share .qr{width:148px;height:148px;flex:none;background:#fff;padding:8px;border-radius:12px;border:1px solid var(--line)}
+.qr img,.qr canvas{width:100%!important;height:100%!important;display:block}
+.share-url{font-size:22px;font-weight:900;color:var(--laser);word-break:break-all}
+.qr-modal{position:fixed;inset:0;z-index:100;background:rgba(10,14,30,.88);display:none;place-items:center;cursor:pointer}
+.qr-modal.on{display:grid}
+.qr-box{background:#fff;border-radius:24px;padding:28px;text-align:center;width:min(90vw,78vh)}
+.qr-box .qr{width:100%;aspect-ratio:1}
+.qr-box .share-url{font-size:clamp(22px,4vw,40px);margin-top:12px}
+.qr-box small{color:var(--muted)}
+
+/* 수업 방향 */
+.lv{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff}
+.lv .hex{width:56px;height:62px;flex:none;display:grid;place-items:center;color:#fff;font-weight:900;font-size:22px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.lv .hex small{display:block;font-size:9px;font-weight:700;margin-bottom:-8px;opacity:.9}
+.lv b{display:block}
+.lv span{font-size:13px;color:var(--muted)}
+.lv em{font-style:normal;color:var(--laser);font-weight:900}
+.tiers{display:grid;gap:6px}
+.tier{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:#10162e;color:#fff}
+.tier .gem{width:30px;height:30px;border-radius:8px;transform:rotate(45deg);margin:0 auto}
+.tier b{font-size:15px}
+.tier span{font-weight:900}
+
+/* 목표 / 주의 */
+.goal{text-align:center;padding:24px 14px}
+.goal .ic{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-size:30px}
+.goal b{font-size:19px;display:block}
+.goal p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.rule{display:flex;gap:14px;align-items:center;padding:20px}
+.rule .ic{width:72px;height:72px;flex:none;border-radius:18px;display:grid;place-items:center;background:#fff1f2}
+.rule b{font-size:19px;display:block}
+.rule span{color:var(--muted);font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 16px 50px}
+</style>
+</head>
+<body>
+
+<nav><div class="in">
+  <span class="logo"><i></i>레이저 사격</span>
+  <a href="#equip">장비</a>
+  <a href="#order">사격 순서</a>
+  <a href="#sight">가늠자·가늠쇠</a>
+  <a href="#grip">파지 3D</a>
+  <a href="#fire">격발·추적 연습</a>
+  <a href="#plan">수업 방향</a>
+  <a href="#goal">수업 목표</a>
+  <a href="#safety">주의사항</a>
+</div></nav>
+
+<header class="hero"><div class="in">
+  <div>
+    <span class="eyebrow" style="background:rgba(255,255,255,.12);color:#ffb3c4">중학교 1학년 체육 · 표적/투기 도전</span>
+    <h1>흔들리지 않는 마음,<br><em>레이저 사격</em></h1>
+    <p>가늠자와 가늠쇠를 맞추고, 숨을 고르고, 부드럽게 방아쇠를 당겨요.<br>집중력과 자기조절력으로 나의 기록에 도전합니다.</p>
+    <div class="chips">
+      <a class="main" href="#sight">🎯 가늠자·가늠쇠 배우기</a>
+      <a href="#grip">✋ 파지 3D로 보기</a>
+      <a href="#safety">⚠️ 안전 수칙</a>
+    </div>
+  </div>
+  <svg viewBox="0 0 360 300" aria-hidden="true">
+    <defs><radialGradient id="glow"><stop offset="0" stop-color="#ff3b6b" stop-opacity=".9"/><stop offset="1" stop-color="#ff3b6b" stop-opacity="0"/></radialGradient></defs>
+    <g transform="translate(250 150)">
+      <circle r="100" fill="#fff"/><circle r="84" fill="none" stroke="#16204a" stroke-width="2"/>
+      <circle r="68" fill="none" stroke="#16204a" stroke-width="2"/><circle r="52" fill="#16204a"/>
+      <circle r="36" fill="none" stroke="#fff" stroke-width="2"/><circle r="20" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle r="26" fill="url(#glow)"/><circle r="5" fill="#ff3b6b"/>
+    </g>
+    <line x1="0" y1="168" x2="250" y2="150" stroke="#ff3b6b" stroke-width="3" opacity=".85"/>
+    <line x1="0" y1="168" x2="250" y2="150" stroke="#ff3b6b" stroke-width="10" opacity=".18"/>
+  </svg>
+</div></header>
+
+<!-- ========== 1. 장비 ========== -->
+<section id="equip" class="equip">
+  <span class="eyebrow">STEP 0 · 장비 알기</span>
+  <h2>레이저 사격 장비</h2>
+  <p class="lead">레이저건은 실제 총알 대신 <b>레이저 빛</b>을 쏘고, 전자 표적이 맞은 위치를 감지해 점수를 알려줘요. 각 부분의 이름을 눌러 위치를 확인해 보세요.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>레이저건 (권총)</h3>
+      <svg id="gunSvg" viewBox="0 0 600 340">
+        <!-- 레이저 -->
+        <line x1="40" y1="118" x2="-200" y2="118" stroke="#e11d48" stroke-width="4" opacity=".7"/>
+        <!-- 앞쪽 몸통 -->
+        <rect x="40" y="90" width="230" height="58" rx="12" fill="#2b2f3a"/>
+        <rect x="40" y="134" width="170" height="40" rx="18" fill="#1d2029"/>
+        <g fill="#3d4352"><rect x="70" y="100" width="10" height="26" rx="3"/><rect x="90" y="100" width="10" height="26" rx="3"/><rect x="110" y="100" width="10" height="26" rx="3"/><rect x="130" y="100" width="10" height="26" rx="3"/></g>
+        <!-- 윗몸통(레일) -->
+        <rect x="220" y="80" width="300" height="52" rx="8" fill="#262a34"/>
+        <rect x="270" y="72" width="170" height="10" fill="#1b1e26"/>
+        <!-- 방아쇠울 -->
+        <path d="M250 150 Q250 220 330 222 Q368 222 372 180" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round"/>
+        <!-- 방아쇠 -->
+        <path id="trigPath" d="M330 140 Q318 168 330 196" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+        <!-- 손잡이 -->
+        <path d="M380 128 L515 128 Q520 160 500 200 L470 300 Q466 316 448 316 L408 316 Q392 316 392 300 Z" fill="#1f232c"/>
+        <rect x="380" y="300" width="140" height="26" rx="5" fill="#16181f"/>
+        <!-- 가늠쇠 (앞) -->
+        <rect x="48" y="66" width="12" height="26" rx="2" fill="#e11d48"/>
+        <!-- 가늠자 (뒤) -->
+        <path d="M486 60 h30 v22 h-30 z M496 60 h10 v10 h-10 z" fill="#2563eb" fill-rule="evenodd"/>
+        <!-- 핫스팟 -->
+        <g class="hot" data-part="front"><line x1="54" y1="64" x2="54" y2="30" stroke="#e11d48" stroke-width="2"/><circle class="dot" cx="54" cy="24" r="10" fill="#e11d48"/><text x="70" y="29" font-size="16" font-weight="700" fill="#e11d48">가늠쇠</text></g>
+        <g class="hot" data-part="rear"><line x1="501" y1="58" x2="501" y2="30" stroke="#2563eb" stroke-width="2"/><circle class="dot" cx="501" cy="24" r="10" fill="#2563eb"/><text x="436" y="29" font-size="16" font-weight="700" fill="#2563eb">가늠자</text></g>
+        <g class="hot" data-part="muzzle"><circle class="dot" cx="40" cy="118" r="10" fill="#f59e0b"/><text x="10" y="196" font-size="15" font-weight="700" fill="#b45309">총구(레이저 발사)</text><line x1="40" y1="128" x2="40" y2="180" stroke="#f59e0b" stroke-width="2"/></g>
+        <g class="hot" data-part="trigger"><circle class="dot" cx="324" cy="168" r="10" fill="#16a34a"/><line x1="324" y1="178" x2="300" y2="250" stroke="#16a34a" stroke-width="2"/><text x="250" y="270" font-size="15" font-weight="700" fill="#15803d">방아쇠</text></g>
+        <g class="hot" data-part="grip"><circle class="dot" cx="448" cy="220" r="10" fill="#7c3aed"/><line x1="458" y1="222" x2="540" y2="240" stroke="#7c3aed" stroke-width="2"/><text x="530" y="262" font-size="15" font-weight="700" fill="#6d28d9" text-anchor="middle">손잡이</text></g>
+      </svg>
+      <div class="part-list">
+        <div class="part" data-part="rear"><b class="rear">가늠자</b><span>총 <b>뒤쪽</b>(눈 가까이)에 있는 <b>홈(凹)</b> 모양 조준기. 홈 사이로 가늠쇠를 봐요.</span></div>
+        <div class="part" data-part="front"><b class="front">가늠쇠</b><span>총 <b>앞쪽</b>(총구 쪽)에 솟은 <b>기둥(▮)</b> 모양 조준기. 가늠자 홈 가운데에 넣어요.</span></div>
+        <div class="part" data-part="trigger"><b style="color:#15803d">방아쇠</b><span>검지 첫마디로 <b>부드럽게, 곧게 뒤로</b> 당겨 레이저를 발사해요.</span></div>
+        <div class="part" data-part="grip"><b style="color:#6d28d9">손잡이</b><span>손바닥 전체로 감싸 쥐는 부분. <b>최대한 높게</b> 잡아요.</span></div>
+        <div class="part" data-part="muzzle"><b style="color:#b45309">총구</b><span>레이저가 나오는 곳. <b>절대 사람을 향하지 않아요.</b></span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>표적</h3>
+      <svg viewBox="0 0 300 300" id="targetSvg"></svg>
+      <div class="tip info" style="margin-top:12px">가운데 <b>검은 원(흑점)</b>에 가까울수록 점수가 높아요. 바깥쪽 1점부터 안쪽으로 갈수록 점수가 올라가요.</div>
+      <div class="tip warn" style="margin-top:8px">레이저건과 표적은 정밀한 전자 장비예요. 떨어뜨리거나 두드리지 않도록 조심히 다뤄요.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. 순서 ========== -->
+<section id="order">
+  <span class="eyebrow">STEP 1~6 · 사격의 기본 순서</span>
+  <h2>사격은 이렇게 해요</h2>
+  <p class="lead">6단계를 차례대로 눌러 보세요. 특히 <b>4. 조준</b>은 아래에서 자세히 연습합니다.</p>
+  <div class="steps" id="steps">
+    <button class="step on" data-i="0">우세안<small>어느 눈?</small></button>
+    <button class="step" data-i="1">자세<small>몸의 중심</small></button>
+    <button class="step" data-i="2">파지<small>총 잡기</small></button>
+    <button class="step" data-i="3">조준<small>일직선</small></button>
+    <button class="step" data-i="4">격발<small>방아쇠</small></button>
+    <button class="step" data-i="5">추적<small>머무르기</small></button>
+  </div>
+  <div class="card"><div class="step-body" id="stepBody"></div></div>
+</section>
+
+<!-- ========== 3. 가늠자·가늠쇠 ========== -->
+<section id="sight">
+  <span class="eyebrow">핵심 · 조준</span>
+  <h2>가늠자와 가늠쇠, 정확하게 이해하기</h2>
+  <p class="lead"><span class="pill rear">■ 가늠자 = 뒤쪽 홈</span> <span class="pill front">■ 가늠쇠 = 앞쪽 기둥</span> &nbsp;두 개를 <b>내 눈 – 가늠자 – 가늠쇠 – 표적</b>이 한 줄이 되도록 맞추는 것이 조준이에요.</p>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <h3>① 옆에서 보면: 조준선</h3>
+      <svg viewBox="0 0 620 230" id="lineSvg" style="width:100%;height:auto">
+        <!-- 눈 -->
+        <g transform="translate(40 82)"><ellipse rx="22" ry="14" fill="#fff" stroke="#151a2d" stroke-width="2"/><circle r="8" fill="#151a2d"/><text y="44" text-anchor="middle" font-size="14" font-weight="700">내 눈</text></g>
+        <!-- 표적 -->
+        <g transform="translate(580 82)"><rect x="-8" y="-60" width="16" height="120" fill="#fff" stroke="#151a2d"/><rect x="-8" y="-14" width="16" height="28" fill="#151a2d"/><text y="84" text-anchor="middle" font-size="14" font-weight="700">표적</text></g>
+        <!-- 총: 가늠자(뒤)는 눈 쪽, 가늠쇠(앞)는 표적 쪽. 기울기는 가늠자 윗면 기준으로 회전 -->
+        <g id="lsGun">
+          <rect x="140" y="100" width="300" height="26" rx="6" fill="#2b2f3a"/>
+          <path d="M160 126 L212 126 L180 200 L146 200 Z" fill="#1f232c"/>
+          <path d="M226 126 Q228 156 262 156 L280 156" fill="none" stroke="#cbd5e1" stroke-width="6"/>
+          <rect x="150" y="82" width="22" height="18" fill="#2563eb"/>
+          <rect x="426" y="82" width="8" height="18" fill="#e11d48"/>
+          <text x="161" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">가늠자(뒤)</text>
+          <text x="430" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#e11d48">가늠쇠(앞)</text>
+        </g>
+        <!-- 레이저 · 조준선 -->
+        <line id="lsLaser" x1="440" y1="113" x2="572" y2="92" stroke="#e11d48" stroke-width="3" opacity=".8"/>
+        <polyline id="lsLine" points="62,82 572,82" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="8 6"/>
+        <circle id="lsHit" cx="580" cy="92" r="6" fill="#ff3b6b" stroke="#fff" stroke-width="2"/>
+        <text id="lsText" x="310" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#16a34a">눈·가늠자·가늠쇠·표적이 한 줄!</text>
+      </svg>
+      <div class="btns" style="margin-top:8px">
+        <button class="btn on" data-ls="ok">바르게 맞춤</button>
+        <button class="btn" data-ls="high">가늠쇠가 높으면?</button>
+        <button class="btn" data-ls="low">가늠쇠가 낮으면?</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>② 이름 쉽게 외우기</h3>
+      <div class="grid g2">
+        <div style="background:var(--rear-soft);border-radius:14px;padding:16px">
+          <svg viewBox="0 0 120 70" style="width:100%;max-width:160px;display:block;margin:0 auto"><path d="M10 15 h40 v50 h-40z M70 15 h40 v50 h-40z" fill="#2563eb"/></svg>
+          <b class="rear" style="font-size:20px">가늠자</b>
+          <p style="margin:4px 0 0;font-size:14px">총 <b>뒤</b> · <b>눈 가까이</b><br>가운데가 파인 <b>홈(凹)</b><br>"<b>자</b>기(나) 쪽에 있는 홈"</p>
+        </div>
+        <div style="background:var(--front-soft);border-radius:14px;padding:16px">
+          <svg viewBox="0 0 120 70" style="width:100%;max-width:160px;display:block;margin:0 auto"><rect x="48" y="15" width="24" height="50" fill="#e11d48"/></svg>
+          <b class="front" style="font-size:20px">가늠쇠</b>
+          <p style="margin:4px 0 0;font-size:14px">총 <b>앞</b> · <b>총구 쪽</b><br>위로 솟은 <b>기둥(▮)</b><br>"앞에 솟은 <b>쇠</b>기둥"</p>
+        </div>
+      </div>
+      <div class="tip ok" style="margin-top:12px"><b>정확한 정렬 3가지</b><br>① 가늠쇠가 가늠자 홈의 <b>정가운데</b> → 양쪽 빛 틈이 똑같이<br>② 가늠쇠 윗면과 가늠자 윗면이 <b>같은 높이(수평)</b><br>③ 눈의 초점은 <b>가늠쇠</b>에! (표적은 살짝 흐려도 OK)</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>③ 조준 시뮬레이터 — 내 눈에 보이는 모습</h3>
+    <p style="margin:0 0 12px;color:var(--muted)"><b class="front">빨간 가늠쇠</b>를 손가락이나 마우스로 끌어 움직여 보세요. 오른쪽 표적에 레이저가 어디에 맞는지 바로 보여요.</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="sightSvg" viewBox="0 0 600 420"></svg>
+        <div class="lbl">눈의 초점을 어디에 둘까요?</div>
+        <div class="seg" id="focusSeg">
+          <button data-f="front" class="on">가늠쇠 (정답)</button>
+          <button data-f="rear">가늠자</button>
+          <button data-f="target">표적</button>
+        </div>
+        <div id="focusMsg" class="tip ok" style="margin-top:10px">👍 가늠쇠가 가장 선명해요. 가늠쇠가 조금만 틀어져도 바로 알 수 있어요.</div>
+      </div>
+      <div>
+        <svg id="impactSvg" viewBox="0 0 260 260"></svg>
+        <div class="fb" id="simFb" style="margin-top:8px"></div>
+        <div class="meter"><span id="simErr">어긋남: 0.0 mm</span><span id="simCm">표적에서: 0.0 cm</span><span id="simScore">10점</span></div>
+        <div class="lbl">자주 하는 실수 보기</div>
+        <div class="btns">
+          <button class="btn" data-pre="0,0">✅ 정확</button>
+          <button class="btn" data-pre="0,-22">가늠쇠 높음</button>
+          <button class="btn" data-pre="0,20">가늠쇠 낮음</button>
+          <button class="btn" data-pre="-14,0">왼쪽으로</button>
+          <button class="btn" data-pre="14,0">오른쪽으로</button>
+          <button class="btn" data-pre="12,-16">오른쪽 위</button>
+        </div>
+        <div class="tip info" style="margin-top:12px">규칙: <b>가늠쇠가 가는 쪽으로 레이저도 간다!</b><br>가늠쇠가 높으면 → 위로, 낮으면 → 아래로, 오른쪽이면 → 오른쪽으로 맞아요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>④ 아주 작은 차이가 큰 차이를 만들어요</h3>
+      <p style="margin:0 0 8px;color:var(--muted)">가늠자와 가늠쇠 사이 거리는 약 20cm, 표적까지는 7m. 그래서 눈앞의 작은 어긋남이 표적에서는 <b>약 35배</b>로 커져요.</p>
+      <div class="lbl">가늠쇠가 어긋난 정도: <b id="mmVal">1.0</b> mm</div>
+      <input type="range" id="mmRange" min="0" max="5" step="0.5" value="1">
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-top:10px">
+        <div><div class="big-num" id="cmVal">3.5 cm</div><div style="color:var(--muted);font-size:14px">7m 앞 표적에서 벗어나는 거리</div></div>
+        <svg viewBox="0 0 200 60" style="flex:1;max-width:260px"><rect x="0" y="22" width="200" height="16" rx="8" fill="#eef1f8"/><rect id="cmBar" x="0" y="22" width="20" height="16" rx="8" fill="#e11d48"/></svg>
+      </div>
+      <div class="tip warn" style="margin-top:12px">1mm는 샤프심 굵기 정도! 그래서 조준할 때는 <b>가늠쇠를 아주 꼼꼼하게</b> 봐야 해요.</div>
+    </div>
+    <div class="card">
+      <h3>⑤ 퀴즈: 레이저는 어디로 갈까?</h3>
+      <div class="quiz-q">
+        <svg id="quizSvg" viewBox="0 0 600 420"></svg>
+        <div>
+          <div style="font-weight:700;margin-bottom:8px" id="quizNo">문제 1 / 6</div>
+          <div class="quiz-opts" id="quizOpts"></div>
+          <div id="quizFb" style="margin-top:10px;font-weight:700;min-height:48px"></div>
+          <button class="btn red" id="quizNext">다음 문제 ▶</button>
+          <span id="quizScore" style="margin-left:8px;color:var(--muted);font-weight:700"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. 파지 3D ========== -->
+<section id="grip">
+  <span class="eyebrow">STEP 3 · 파지</span>
+  <h2>권총 쥐는 모습, 여러 방향에서 보기</h2>
+  <p class="lead">화면을 <b>끌어서 돌리고</b>, 손가락 두 개로(또는 휠로) <b>확대</b>할 수 있어요. 아래 버튼으로 원하는 방향에서 바로 볼 수 있어요.</p>
+  <div class="grid" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)" id="gripGrid">
+    <div class="card" style="padding:12px">
+      <div class="btns" style="margin-bottom:10px">
+        <div class="seg" id="handSeg"><button data-h="one" class="on">한손 파지</button><button data-h="two">양손 파지</button></div>
+        <button class="btn" id="tglLabel">이름표 끄기</button>
+        <button class="btn" id="tglGhost">손 투명하게</button>
+        <button class="btn" id="tglLine">조준선·레이저 보기</button>
+        <button class="btn" id="tglSpin">자동 회전</button>
+      </div>
+      <div class="viewer" id="viewer">
+        <canvas id="three"></canvas>
+        <div class="v-labels" id="vLabels"></div>
+        <div class="v-warn" id="vWarn">⚠️ 실제로는 절대 총구 앞에 서지 않아요!</div>
+        <div class="v-hint">끌어서 돌리기 · 휠/두 손가락으로 확대</div>
+        <div class="v-err" id="vErr">3D 화면을 불러오지 못했어요.<br>인터넷 연결을 확인하거나 다른 브라우저(크롬, 엣지)로 열어 주세요.</div>
+      </div>
+      <div class="lbl">보는 방향</div>
+      <div class="btns" id="viewBtns">
+        <button class="btn on" data-v="eye">👁 사수 눈높이(뒤)</button>
+        <button class="btn" data-v="right">오른쪽</button>
+        <button class="btn" data-v="left">왼쪽</button>
+        <button class="btn" data-v="top">위</button>
+        <button class="btn" data-v="bottom">아래</button>
+        <button class="btn" data-v="angle">비스듬히</button>
+        <button class="btn" data-v="front">앞(총구 쪽)</button>
+      </div>
+    </div>
+    <div class="card" id="gripInfo"></div>
+  </div>
+  <style>@media (max-width:900px){#gripGrid{grid-template-columns:1fr!important}}</style>
+</section>
+
+<!-- ========== 5. 격발·추적 ========== -->
+<section id="fire">
+  <span class="eyebrow">STEP 4~6 · 조준 → 격발 → 추적</span>
+  <h2>호흡 멈추고, 부드럽게, 그리고 머무르기</h2>
+  <p class="lead">조준점은 호흡에 따라 출렁여요. <b>숨을 멈추면</b> 흔들림이 줄어들고, <b>방아쇠를 천천히 끝까지</b> 눌러야 정확해요. 쏜 뒤에도 바로 손을 떼지 말고 <b>1초 머무르기(추적)</b>!</p>
+  <div class="sim-wrap">
+    <div class="card" style="padding:12px">
+      <canvas id="game" width="640" height="420"></canvas>
+      <div class="btns" style="margin-top:10px;justify-content:center">
+        <button class="btn hold" id="bBreath">🫁 숨 멈추기 (누르고 있기 · Space)</button>
+        <button class="btn red hold" id="bTrig">☝️ 방아쇠 (누르고 있기 · F)</button>
+        <button class="btn" id="bJerk">💥 확 당기기 (나쁜 예)</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>연습 방법</h3>
+      <ol style="padding-left:20px;margin:0">
+        <li><b>숨 멈추기</b>를 누르고 있어요. (숨을 살짝 내쉰 뒤 멈춘다고 생각!)</li>
+        <li>흔들림이 줄어들면 <b>방아쇠</b>를 누르고 있어요. 게이지가 꽉 차면 발사돼요.</li>
+        <li>발사 후에도 <b>방아쇠를 1초 더</b> 누르고 있으면 <b style="color:var(--ok)">추적 성공</b>!</li>
+        <li>숨을 너무 오래 참으면(8초 이상) 오히려 다시 흔들려요. 그럴 땐 쉬었다가 다시!</li>
+      </ol>
+      <div class="lbl">내 기록 (10발)</div>
+      <div class="shots" id="shots"></div>
+      <div style="margin-top:10px;font-size:18px;font-weight:900">합계 <span id="total" style="color:var(--laser)">0</span>점 <span id="ftCount" style="font-size:14px;color:var(--ok);font-weight:700"></span></div>
+      <button class="btn" id="gReset" style="margin-top:10px">다시 하기</button>
+      <div class="tip warn" style="margin-top:12px"><b>확 당기기</b>를 눌러 보세요. 방아쇠를 갑자기 당기면 총이 아래로 끌려 내려가 탄이 <b>아래쪽</b>으로 빠져요.</div>
+    </div>
+  </div>
+  <div class="card share">
+    <div class="qr" id="qrSmall"></div>
+    <div>
+      <h3 style="margin:0 0 4px">📱 내 휴대폰으로 연습하고 기록 남기기</h3>
+      <p style="margin:0 0 10px;color:var(--muted)">QR을 찍거나 주소를 입력하고 <b>반·번호</b>를 골라 들어가요. 10발을 쏘면 기록이 저장되고, 우리 반 친구들 순위를 볼 수 있어요.</p>
+      <div class="share-url" id="shareUrl"></div>
+      <div class="btns" style="margin-top:10px">
+        <a class="btn red" id="shareOpen" target="_blank" rel="noopener">학생용 연습 페이지 열기 ↗</a>
+        <button class="btn" id="qrBig">QR 크게 띄우기</button>
+      </div>
+    </div>
+  </div>
+  <div class="qr-modal" id="qrModal">
+    <div class="qr-box">
+      <div class="qr" id="qrLarge"></div>
+      <div class="share-url" id="shareUrl2"></div>
+      <small>화면을 누르면 닫혀요</small>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6. 수업 방향 ========== -->
+<section id="plan">
+  <span class="eyebrow">수업 방향</span>
+  <h2>레이저 사격 수업은 이렇게 진행돼요</h2>
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card"><div class="num">1</div><h3 style="margin-top:10px">수준별 연습</h3><p style="margin:0;color:var(--muted);font-size:14px">Level 1~8 단계를 하나씩 통과하며 실력을 쌓아요.</p></div>
+    <div class="card"><div class="num">2</div><h3 style="margin-top:10px">미션 사격</h3><p style="margin:0;color:var(--muted);font-size:14px">① WITH 건강체력: 운동 후 심박이 높은 상태에서 사격<br>② 팀 게임</p></div>
+    <div class="card"><div class="num">3</div><h3 style="margin-top:10px">학년 대항</h3><p style="margin:0;color:var(--muted);font-size:14px">학년끼리 실력을 겨루는 대항전!</p></div>
+    <div class="card"><div class="num">4</div><h3 style="margin-top:10px">랭킹 · 승급 심사</h3><p style="margin:0;color:var(--muted);font-size:14px">학년 내 랭킹 시스템과 승급 심사로 나의 등급에 도전해요.</p></div>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)" id="planGrid">
+    <div class="card">
+      <h3>레벨업 과정 (초급) · 거리 7m</h3>
+      <p style="margin:0 0 12px;color:var(--muted);font-size:14px">레이저 사격 점수는 소수점 포함 · 의탁사격 = 팔이나 총을 받침대에 올려놓고 쏘기</p>
+      <div class="grid g2" id="levels"></div>
+    </div>
+    <div class="card">
+      <h3>승급 심사 등급</h3>
+      <p style="margin:0 0 12px;color:var(--muted);font-size:14px">"흔들리지 않는 평정심, 완벽한 타이밍!"</p>
+      <div class="tiers" id="tiers"></div>
+    </div>
+  </div>
+  <style>@media (max-width:900px){#planGrid{grid-template-columns:1fr!important}}</style>
+</section>
+
+<!-- ========== 7. 목표 ========== -->
+<section id="goal">
+  <span class="eyebrow">수업 목표</span>
+  <h2>레이저 사격으로 키우는 힘</h2>
+  <div class="grid g5">
+    <div class="card goal"><div class="ic" style="background:#fff1f2">🔥</div><b>도전의식</b><p>어제의 나보다 한 점 더! 목표 레벨에 도전해요.</p></div>
+    <div class="card goal"><div class="ic" style="background:#eef2ff">🧘</div><b>자기조절력</b><p>긴장되고 떨려도 호흡으로 마음을 다스려요.</p></div>
+    <div class="card goal"><div class="ic" style="background:#ecfdf5">🧩</div><b>문제해결력</b><p>탄이 모인 곳을 보고 원인을 찾아 고쳐요.</p></div>
+    <div class="card goal"><div class="ic" style="background:#fff7ed">🎯</div><b>집중력</b><p>가늠쇠 하나에 모든 신경을 모아요.</p></div>
+    <div class="card goal"><div class="ic" style="background:#f5f3ff">🗿</div><b>안정성</b><p>흔들리지 않는 자세와 파지를 만들어요.</p></div>
+  </div>
+</section>
+
+<!-- ========== 8. 주의사항 ========== -->
+<section id="safety">
+  <span class="eyebrow" style="background:#fee2e2">반드시 지켜요</span>
+  <h2>레이저 사격 수업 시 주의사항</h2>
+  <div class="grid g2">
+    <div class="card rule"><div class="ic"><svg viewBox="0 0 64 64" width="48"><circle cx="32" cy="32" r="26" fill="none" stroke="#e11d48" stroke-width="6"/><line x1="14" y1="50" x2="50" y2="14" stroke="#e11d48" stroke-width="6"/><circle cx="32" cy="24" r="6" fill="#151a2d"/><path d="M22 46 q10-14 20 0" fill="#151a2d"/></svg></div><div><b>1. 사람을 향해 총을 겨누지 않는다.</b><span>레이저는 눈에 해로울 수 있어요. 총구는 항상 표적 쪽 또는 바닥 쪽으로!</span></div></div>
+    <div class="card rule"><div class="ic"><svg viewBox="0 0 64 64" width="48"><path d="M8 40 q24 16 48 0" fill="none" stroke="#2563eb" stroke-width="5"/><rect x="18" y="20" width="28" height="12" rx="3" fill="#151a2d"/><rect x="36" y="30" width="8" height="12" fill="#151a2d"/></svg></div><div><b>2. 레이저 권총을 조심스럽게 다룬다.</b><span>떨어뜨리지 않게 두 손으로 옮기고, 정해진 곳에 내려놓아요.</span></div></div>
+    <div class="card rule"><div class="ic"><svg viewBox="0 0 64 64" width="48"><circle cx="32" cy="32" r="26" fill="none" stroke="#e11d48" stroke-width="6"/><line x1="14" y1="50" x2="50" y2="14" stroke="#e11d48" stroke-width="6"/><text x="32" y="40" text-anchor="middle" font-size="22">😜</text></svg></div><div><b>3. 레이저 권총을 들고 장난치지 않는다.</b><span>총을 돌리거나 친구에게 겨누는 행동은 절대 금지!</span></div></div>
+    <div class="card rule"><div class="ic"><svg viewBox="0 0 64 64" width="48"><rect x="8" y="44" width="48" height="8" rx="2" fill="#94a3b8"/><circle cx="32" cy="16" r="7" fill="#151a2d"/><rect x="26" y="24" width="12" height="20" rx="4" fill="#151a2d"/><text x="52" y="22" font-size="16" font-weight="900" fill="#e11d48">1</text></svg></div><div><b>4. 사대에는 반드시 한 명만 입장한다.</b><span>사대(쏘는 자리)에는 사수 한 명만! 다른 친구는 뒤에서 기다려요.</span></div></div>
+  </div>
+</section>
+
+<footer>레이저 사격 체육 수업 자료 · 중학교 1학년</footer>
+
+<script>
+/* ================= 공통 도우미 ================= */
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+
+/* 메뉴 활성화 */
+(function(){
+  const links=[...document.querySelectorAll("nav a")];
+  const secs=links.map(a=>document.querySelector(a.getAttribute("href")));
+  addEventListener("scroll",()=>{
+    let cur=0; secs.forEach((s,i)=>{ if(s.getBoundingClientRect().top<120) cur=i; });
+    links.forEach((a,i)=>a.classList.toggle("on",i===cur && scrollY>300));
+  },{passive:true});
+})();
+
+/* ================= 1. 장비 ================= */
+(function(){
+  const t=document.getElementById("targetSvg");
+  el("rect",{x:4,y:4,width:292,height:292,fill:"#fff",stroke:"#151a2d","stroke-width":3},t);
+  for(let n=1;n<=8;n++){
+    const r=136-(n-1)*15;
+    el("circle",{cx:150,cy:150,r,fill:"#fff",stroke:"#151a2d","stroke-width":n===1?3:1.6},t);
+    const tx=el("text",{x:150,y:150-r+12,"text-anchor":"middle","font-size":11,"font-weight":700},t); tx.textContent=n;
+    const tx2=el("text",{x:150-r+7,y:154,"text-anchor":"middle","font-size":11,"font-weight":700},t); tx2.textContent=n;
+  }
+  el("circle",{cx:150,cy:150,r:22,fill:"#151a2d"},t);
+  const parts=document.querySelectorAll("[data-part]");
+  function on(p){ parts.forEach(x=>x.classList.toggle("on",x.dataset.part===p)); }
+  parts.forEach(x=>x.addEventListener("click",()=>on(x.dataset.part)));
+})();
+
+/* ================= 2. 사격 순서 ================= */
+(function(){
+  const S=[
+    {t:"우세안 검사",d:"왼쪽과 오른쪽 눈 중 어느 눈을 주로 사용하는지 확인해요.",
+     li:["두 팔을 쭉 뻗어 엄지와 검지로 <b>작은 삼각형 구멍</b>을 만들어요.","두 눈을 뜬 채 구멍 안에 먼 물체(시계, 표적)를 넣어요.","<b>왼쪽 눈을 감아요.</b> 물체가 그대로 보이면 → <b>오른쪽 눈이 우세안</b>","<b>오른쪽 눈을 감아요.</b> 물체가 그대로 보이면 → <b>왼쪽 눈이 우세안</b>","조준할 때는 <b>우세안</b>으로 가늠자·가늠쇠를 봐요."],
+     svg:`<svg viewBox="0 0 360 260"><circle cx="300" cy="70" r="26" fill="#fff" stroke="#151a2d" stroke-width="3"/><line x1="300" y1="70" x2="300" y2="54" stroke="#151a2d" stroke-width="3"/><line x1="300" y1="70" x2="312" y2="76" stroke="#151a2d" stroke-width="3"/><text x="300" y="118" text-anchor="middle" font-size="13" font-weight="700">먼 물체</text><path d="M150 70 L200 110 L100 110 Z" fill="none" stroke="#f1b27a" stroke-width="16" stroke-linejoin="round"/><line x1="70" y1="200" x2="300" y2="70" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 5"/><g transform="translate(60 210)"><ellipse cx="-18" cy="0" rx="14" ry="9" fill="#fff" stroke="#151a2d" stroke-width="2"/><line x1="-30" y1="0" x2="-6" y2="0" stroke="#151a2d" stroke-width="3"/><ellipse cx="18" cy="0" rx="14" ry="9" fill="#fff" stroke="#151a2d" stroke-width="2"/><circle cx="18" cy="0" r="5" fill="#151a2d"/><text x="-18" y="28" text-anchor="middle" font-size="12">감은 눈</text><text x="22" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">우세안</text></g></svg>`},
+    {t:"자세",d:"몸의 중심을 잡고 호흡을 조절하여 신체의 안정성을 확보해요.",
+     li:["발은 <b>어깨너비</b>로 벌리고, 몸은 표적과 비스듬히(약 45°) 서요.","무게는 <b>양발에 고르게</b>, 무릎은 곧게 펴되 힘을 빼요.","총을 든 팔은 <b>쭉 펴서</b> 어깨-팔-총이 한 줄이 되게 해요.","한손 사격: 다른 손은 주머니나 허리에 편하게 걸쳐요.","편하게 숨을 쉬며 몸의 흔들림을 줄여요."],
+     svg:`<svg viewBox="0 0 360 260"><line x1="40" y1="236" x2="320" y2="236" stroke="#cbd5e1" stroke-width="3"/><circle cx="110" cy="52" r="20" fill="#151a2d"/><line x1="110" y1="72" x2="110" y2="160" stroke="#151a2d" stroke-width="14" stroke-linecap="round"/><line x1="110" y1="90" x2="250" y2="88" stroke="#151a2d" stroke-width="11" stroke-linecap="round"/><rect x="246" y="74" width="40" height="12" rx="3" fill="#2b2f3a"/><line x1="110" y1="100" x2="92" y2="140" stroke="#151a2d" stroke-width="10" stroke-linecap="round"/><line x1="110" y1="160" x2="84" y2="234" stroke="#151a2d" stroke-width="12" stroke-linecap="round"/><line x1="110" y1="160" x2="136" y2="234" stroke="#151a2d" stroke-width="12" stroke-linecap="round"/><line x1="78" y1="250" x2="142" y2="250" stroke="#e11d48" stroke-width="2"/><text x="110" y="262" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">어깨너비</text><line x1="110" y1="90" x2="330" y2="88" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 5"/><text x="240" y="64" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">어깨-팔-총 일직선</text></svg>`},
+    {t:"파지",d:"총을 올바르게 잡아요. 아래 <b>3D 파지</b>에서 여러 방향으로 확인해요.",
+     li:["손잡이를 <b>최대한 높게</b>: 엄지와 검지 사이(물갈퀴)를 손잡이 위쪽 끝에 붙여요.","가운데·약지·새끼손가락으로 <b>악수하듯</b> 감싸요. (너무 꽉 쥐면 떨려요)","<b>검지는 방아쇠에만</b>, 첫마디 가운데를 올려요.","엄지는 힘을 빼고 앞쪽을 향해 편하게 둬요.","손목을 꺾지 말고 <b>팔과 총이 일직선</b>이 되게 해요."],
+     svg:`<svg viewBox="0 0 380 270">
+      <!-- 오른쪽에서 본 오른손 파지 (총구는 왼쪽) -->
+      <rect x="20" y="50" width="270" height="44" rx="8" fill="#2b2f3a"/>
+      <rect x="28" y="38" width="8" height="13" fill="#e11d48"/><rect x="266" y="36" width="18" height="15" fill="#2563eb"/>
+      <path d="M196 94 L276 94 L300 238 Q302 248 292 248 L236 248 Q226 248 224 238 Z" fill="#1f232c"/>
+      <path d="M116 94 Q112 152 168 154 L208 154" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+      <path d="M156 96 Q148 116 158 134" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+      <g stroke="#b77b45" stroke-width="2" stroke-linejoin="round">
+        <!-- 팔(총과 일직선) -->
+        <path d="M300 98 L380 94 L380 184 L306 196 Z" fill="#eab67c"/>
+        <!-- 손등 -->
+        <path d="M246 100 Q258 88 292 90 Q306 92 312 104 L320 188 Q304 214 264 212 L238 202 Q232 150 246 100 Z" fill="#f3c58f"/>
+      </g>
+      <!-- 중지·약지·소지: 손잡이 앞쪽을 감싸 반대편으로 -->
+      <g stroke-linecap="round" fill="none">
+        <path d="M256 136 L200 140" stroke="#b77b45" stroke-width="26"/><path d="M256 136 L200 140" stroke="#f3c58f" stroke-width="22"/>
+        <path d="M256 162 L205 166" stroke="#b77b45" stroke-width="25"/><path d="M256 162 L205 166" stroke="#f3c58f" stroke-width="21"/>
+        <path d="M254 188 L211 191" stroke="#b77b45" stroke-width="22"/><path d="M254 188 L211 191" stroke="#f3c58f" stroke-width="18"/>
+        <!-- 손가락 마디 -->
+        <path d="M228 126 v22 M231 152 v22 M233 179 v19" stroke="#c98d4f" stroke-width="1.5"/>
+        <!-- 검지: 첫마디를 방아쇠에 -->
+        <path d="M252 112 Q206 106 176 114 Q160 118 160 128" stroke="#b77b45" stroke-width="20"/>
+        <path d="M252 112 Q206 106 176 114 Q160 118 160 128" stroke="#f3c58f" stroke-width="16"/>
+        <path d="M206 104 v15" stroke="#c98d4f" stroke-width="1.5"/>
+      </g>
+      <!-- 이름표 -->
+      <g font-size="13" font-weight="700">
+        <text x="300" y="24" fill="#7c3aed">높게!</text><path d="M306 30 L292 88" stroke="#7c3aed" stroke-width="2"/>
+        <text x="20" y="190" fill="#15803d">검지 첫마디 → 방아쇠</text><path d="M110 178 L158 130" stroke="#15803d" stroke-width="2"/>
+        <text x="40" y="232" fill="#b45309">세 손가락으로 감싸기</text><path d="M172 226 L206 176" stroke="#b45309" stroke-width="2"/>
+        <text x="322" y="214" fill="#5b6275" font-size="12">팔·총</text><text x="322" y="230" fill="#5b6275" font-size="12">일직선</text>
+        <text x="26" y="118" fill="#5b6275" font-size="12">(엄지는 반대편)</text>
+      </g>
+    </svg>`},
+    {t:"조준",d:"가늠자와 가늠쇠를 일직선상에 맞춰 표적을 정조준해요.",
+     li:["우세안으로 <span class='rear'>가늠자</span> 홈 사이에 <span class='front'>가늠쇠</span>를 넣어요.","가늠쇠는 <b>정가운데</b>, 윗면은 <b>수평</b>.","초점은 <b>가늠쇠</b>에! 표적은 살짝 흐려도 괜찮아요.","정렬한 채로 표적 중심에 맞춰요(정조준).","👉 아래 <a href='#sight'><b>가늠자·가늠쇠 시뮬레이터</b></a>에서 연습!"],
+     svg:null},
+    {t:"격발",d:"호흡을 멈추고 방아쇠를 부드럽게 당겨 레이저를 발사해요.",
+     li:["숨을 들이마셨다가 <b>반쯤 내쉬고 멈춰요.</b>","멈춘 상태에서 <b>5~8초 안에</b> 쏘아요. (너무 오래 참으면 다시 떨려요)","방아쇠는 <b>천천히, 곧게 뒤로</b> — 언제 발사될지 모를 만큼 부드럽게.","'탕!' 하고 확 당기면 총이 흔들려 탄이 빗나가요."],
+     svg:`<svg viewBox="0 0 360 260"><polyline points="20,170 60,110 100,170 140,110 170,140 300,140" fill="none" stroke="#2563eb" stroke-width="4" stroke-linejoin="round"/><rect x="170" y="120" width="130" height="40" rx="8" fill="#e0eaff"/><text x="235" y="146" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">숨 멈춤 (5~8초)</text><line x1="250" y1="70" x2="250" y2="200" stroke="#e11d48" stroke-width="3" stroke-dasharray="5 4"/><text x="250" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#e11d48">이때 격발!</text><text x="80" y="210" text-anchor="middle" font-size="12" fill="#5b6275">들숨 · 날숨</text></svg>`},
+    {t:"추적",d:"격발 후에도 표적에 머무르고 자세를 유지해요.",
+     li:["쏜 뒤 <b>1~2초</b> 동안 조준과 자세를 그대로 유지해요.","방아쇠도 바로 놓지 말고 잠깐 그대로 둬요.","결과를 확인하고, 탄이 모인 위치로 내 실수를 찾아봐요.","총을 내려놓을 때는 총구를 표적 쪽(또는 바닥)으로!"],
+     svg:`<svg viewBox="0 0 360 260"><g transform="translate(250 130)"><circle r="90" fill="#fff" stroke="#151a2d" stroke-width="2"/><circle r="60" fill="none" stroke="#151a2d"/><circle r="32" fill="#151a2d"/><circle r="5" cx="4" cy="-3" fill="#ff3b6b"/></g><line x1="20" y1="130" x2="250" y2="127" stroke="#ff3b6b" stroke-width="3" opacity=".8"/><text x="90" y="96" font-size="14" font-weight="700" fill="#16a34a">1~2초 머무르기</text><path d="M60 110 a20 20 0 1 1 1 0" fill="none" stroke="#16a34a" stroke-width="3"/></svg>`}
+  ];
+  const body=document.getElementById("stepBody"), btns=document.querySelectorAll("#steps .step");
+  function sightSmall(){ return `<svg viewBox="0 0 600 420" style="border-radius:12px;background:#cfe3f5">${window.__sightMarkup?window.__sightMarkup(0,0):""}</svg>`; }
+  function show(i){
+    btns.forEach((b,j)=>b.classList.toggle("on",i===j));
+    const s=S[i];
+    let extra="";
+    if(i===2) extra=`<div class="btns" style="margin-top:10px"><a class="btn" href="https://youtu.be/xeFiH_2lPFQ?si=cXRycIcRsf0a-Vd0" target="_blank" rel="noopener">▶ 양손 사격 영상</a><a class="btn" href="https://youtu.be/TnihIlXaAE0?si=YpGfJKw3UoNsKLLs" target="_blank" rel="noopener">▶ 한손 사격 영상</a><a class="btn red" href="#grip">✋ 3D 파지 보기</a></div>`;
+    body.innerHTML=`<div><h3><span class="num" style="margin-right:8px">${i+1}</span>${s.t}</h3><p style="margin:6px 0;color:var(--muted)">${s.d}</p><ul>${s.li.map(x=>`<li>${x}</li>`).join("")}</ul>${extra}</div><div>${s.svg||sightSmall()}</div>`;
+  }
+  btns.forEach(b=>b.addEventListener("click",()=>show(+b.dataset.i)));
+  window.__showStep=show;
+})();
+
+/* ================= 3. 가늠자·가늠쇠 ================= */
+(function(){
+  // 조준선 측면 그림
+  // 총을 가늠자 윗면(161,82)을 중심으로 기울여, 가늠쇠가 높거나 낮은 상황을 보여줌
+  const line=document.getElementById("lsLine"), txt=document.getElementById("lsText"), gunG=document.getElementById("lsGun"),
+        laser=document.getElementById("lsLaser"), hit=document.getElementById("lsHit");
+  const PX=161, PY=82, LS={
+    ok:{a:0,c:"#16a34a",t:"눈·가늠자·가늠쇠·표적이 한 줄!"},
+    high:{a:-6,c:"#e11d48",t:"가늠쇠가 높으면 → 총구가 들려 위로 맞아요"},
+    low:{a:6,c:"#e11d48",t:"가늠쇠가 낮으면 → 총구가 숙여져 아래로 맞아요"}
+  };
+  const rot=(x,y,a)=>{ const r=a*Math.PI/180, dx=x-PX, dy=y-PY; return [PX+dx*Math.cos(r)-dy*Math.sin(r), PY+dx*Math.sin(r)+dy*Math.cos(r)]; };
+  function setLS(k){
+    const s=LS[k];
+    gunG.setAttribute("transform",`rotate(${s.a} ${PX} ${PY})`);
+    // 조준선: 눈 → 가늠자 윗면 → 가늠쇠 윗면 → 연장
+    const [fx,fy]=rot(430,82,s.a), slope=(fy-PY)/(fx-PX);
+    const hy=PY+slope*(572-PX);
+    line.setAttribute("points",`62,${PY} ${PX},${PY} ${fx.toFixed(1)},${fy.toFixed(1)} 572,${hy.toFixed(1)}`);
+    const [mx,my]=rot(440,113,s.a);
+    laser.setAttribute("x1",mx); laser.setAttribute("y1",my); laser.setAttribute("y2",hy); hit.setAttribute("cy",hy);
+    line.setAttribute("stroke",s.c); txt.setAttribute("fill",s.c); txt.textContent=s.t;
+  }
+  document.querySelectorAll("[data-ls]").forEach(b=>b.addEventListener("click",()=>{
+    document.querySelectorAll("[data-ls]").forEach(x=>x.classList.toggle("on",x===b)); setLS(b.dataset.ls);
+  }));
+  setLS("ok");
+
+  // 조준 그림 마크업 (가늠쇠 dx, dy 픽셀)
+  const NX=300, TOP=250, NOTCH=60, POST=30;
+  function markup(dx,dy,focus){
+    focus=focus||"front";
+    const bt=focus==="target"?"":"url(#blurT)", br=focus==="rear"?"":"url(#blurR)", bf=focus==="front"?"":"url(#blurF)";
+    let rings="";
+    for(let n=1;n<=10;n++){ const r=8*(11-n); rings+=`<circle cx="${NX}" cy="${TOP}" r="${r}" fill="${n>=7?'#151a2d':'#fff'}" stroke="${n>=7?'#fff':'#151a2d'}" stroke-width="1"/>`; }
+    return `<defs>
+      <filter id="blurT" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.5"/></filter>
+      <filter id="blurR" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="4"/></filter>
+      <filter id="blurF" x="-50%" y="-20%" width="200%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dbe9f7"/><stop offset="1" stop-color="#bcd3ea"/></linearGradient>
+    </defs>
+    <rect width="600" height="420" fill="url(#sky)"/>
+    <g filter="${bt}"><rect x="${NX-100}" y="${TOP-100}" width="200" height="200" fill="#f8fafc" stroke="#94a3b8"/>${rings}</g>
+    <g filter="${bf}"><rect x="${NX-POST/2+dx}" y="${TOP+dy}" width="${POST}" height="${420-TOP-dy+20}" fill="#e11d48"/></g>
+    <g filter="${br}">
+      <path d="M40 ${TOP} H${NX-NOTCH/2} V420 H40 Z M${NX+NOTCH/2} ${TOP} H560 V420 H${NX+NOTCH/2} Z" fill="#2563eb"/>
+      <rect x="40" y="${TOP+70}" width="520" height="140" fill="#1d4ed8"/>
+    </g>
+    <text x="70" y="${TOP+40}" font-size="18" font-weight="700" fill="#fff">가늠자</text>
+    <text x="${NX+POST/2+dx+8}" y="${TOP+dy-8}" font-size="16" font-weight="700" fill="#e11d48" style="paint-order:stroke" stroke="#fff" stroke-width="4">가늠쇠</text>`;
+  }
+  window.__sightMarkup=markup;
+  window.__showStep && window.__showStep(0);
+
+  const svg=document.getElementById("sightSvg"), imp=document.getElementById("impactSvg");
+  let dx=0, dy=0, focus="front";
+  // 픽셀→mm: 가늠쇠 폭 30px = 3mm 로 가정 → 0.1mm/px. 7m / 20cm = 35배
+  const MM_PER_PX=0.1, AMP=35, RING_MM=8, RING_PX=12;
+  function score(rpx){ const s=11-Math.ceil(Math.max(rpx,0.0001)/RING_PX); return Math.max(0,Math.min(10,s)); }
+  function drawImpact(){
+    let h="";
+    for(let n=1;n<=10;n++){ const r=RING_PX*(11-n); h+=`<circle cx="130" cy="130" r="${r}" fill="${n>=7?'#151a2d':'#fff'}" stroke="${n>=7?'#fff':'#151a2d'}" stroke-width="1"/>`; if(n<=8) h+=`<text x="130" y="${130-r+10}" text-anchor="middle" font-size="8" fill="${n>=7?'#fff':'#151a2d'}">${n}</text>`; }
+    const k=MM_PER_PX*AMP/RING_MM*RING_PX; // px on mini target per px of sight error
+    let ix=dx*k, iy=dy*k;
+    const r=Math.hypot(ix,iy), cl=Math.min(1,125/Math.max(r,1));
+    const out=r>125; ix*=cl; iy*=cl;
+    h+=`<line x1="130" y1="130" x2="${130+ix}" y2="${130+iy}" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3"/>`;
+    h+=`<circle cx="${130+ix}" cy="${130+iy}" r="11" fill="#ff3b6b" opacity=".35"/><circle cx="${130+ix}" cy="${130+iy}" r="5" fill="#ff3b6b" stroke="#fff" stroke-width="1.5"/>`;
+    imp.innerHTML=h;
+    const errMm=Math.hypot(dx,dy)*MM_PER_PX, cm=errMm*AMP/10;
+    document.getElementById("simErr").textContent=`어긋남: ${errMm.toFixed(1)} mm`;
+    document.getElementById("simCm").textContent=`표적에서: ${cm.toFixed(1)} cm`;
+    document.getElementById("simScore").textContent=out?"표적 밖!":`${score(r)}점`;
+    const fb=document.getElementById("simFb"); const parts=[];
+    if(Math.abs(dx)<=3 && Math.abs(dy)<=3){ fb.innerHTML=`<div class="tip ok">✅ 완벽한 정렬! 양쪽 빛 틈이 똑같고, 윗면이 수평이에요.</div>`; return; }
+    if(dy<-3) parts.push("가늠쇠가 <b>높아요</b> → 레이저가 <b>위로</b>");
+    if(dy>3) parts.push("가늠쇠가 <b>낮아요</b> → 레이저가 <b>아래로</b>");
+    if(dx<-3) parts.push("가늠쇠가 <b>왼쪽</b>에 → 레이저가 <b>왼쪽으로</b>");
+    if(dx>3) parts.push("가늠쇠가 <b>오른쪽</b>에 → 레이저가 <b>오른쪽으로</b>");
+    fb.innerHTML=`<div class="tip warn">${parts.join("<br>")}</div>`;
+  }
+  function render(){ svg.innerHTML=markup(dx,dy,focus); drawImpact(); }
+  // 드래그
+  let drag=null;
+  function pt(e){ const r=svg.getBoundingClientRect(); return {x:(e.clientX-r.left)*600/r.width, y:(e.clientY-r.top)*420/r.height}; }
+  svg.addEventListener("pointerdown",e=>{ drag={p:pt(e),dx,dy}; svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener("pointermove",e=>{ if(!drag) return; const p=pt(e);
+    dx=Math.max(-45,Math.min(45,drag.dx+(p.x-drag.p.x)*0.6)); dy=Math.max(-50,Math.min(50,drag.dy+(p.y-drag.p.y)*0.6)); render(); });
+  svg.addEventListener("pointerup",()=>drag=null); svg.addEventListener("pointercancel",()=>drag=null);
+  document.querySelectorAll("[data-pre]").forEach(b=>b.addEventListener("click",()=>{
+    const [a,c]=b.dataset.pre.split(",").map(Number); animTo(a,c);
+  }));
+  function animTo(tx,ty){ const sx=dx, sy=dy, t0=performance.now();
+    (function f(t){ const k=Math.min(1,(t-t0)/400), e=1-Math.pow(1-k,3); dx=sx+(tx-sx)*e; dy=sy+(ty-sy)*e; render(); if(k<1) requestAnimationFrame(f); })(t0); }
+  const FM={front:["ok","👍 가늠쇠가 가장 선명해요. 가늠쇠가 조금만 틀어져도 바로 알 수 있어요."],
+            rear:["warn","🤔 가늠자에 초점을 두면 가늠쇠가 흐려져서 위치를 정확히 맞추기 어려워요."],
+            target:["warn","🤔 표적만 선명하고 가늠쇠가 흐려요. 표적을 보고 싶어도 초점은 가늠쇠로!"]};
+  document.querySelectorAll("#focusSeg button").forEach(b=>b.addEventListener("click",()=>{
+    focus=b.dataset.f; document.querySelectorAll("#focusSeg button").forEach(x=>x.classList.toggle("on",x===b));
+    const m=document.getElementById("focusMsg"); m.className="tip "+FM[focus][0]; m.textContent=FM[focus][1]; render();
+  }));
+  render();
+
+  // mm 계산
+  const mr=document.getElementById("mmRange");
+  function mm(){ const v=+mr.value, cm=v*AMP/10; document.getElementById("mmVal").textContent=v.toFixed(1);
+    document.getElementById("cmVal").textContent=cm.toFixed(1)+" cm"; document.getElementById("cmBar").setAttribute("width",Math.max(8,cm/17.5*200)); }
+  mr.addEventListener("input",mm); mm();
+
+  // 퀴즈
+  const Q=[{dx:0,dy:-22,a:"위"},{dx:14,dy:0,a:"오른쪽"},{dx:0,dy:0,a:"가운데"},{dx:-14,dy:0,a:"왼쪽"},{dx:0,dy:20,a:"아래"},{dx:14,dy:-18,a:"오른쪽 위"}];
+  const OPTS=["위","아래","왼쪽","오른쪽","가운데","오른쪽 위"];
+  const EXP={"위":"가늠쇠가 가늠자보다 높아요 → 총구가 위를 향해요.","아래":"가늠쇠가 가늠자보다 낮아요 → 총구가 아래를 향해요.","왼쪽":"가늠쇠가 홈의 왼쪽에 붙었어요 → 총구가 왼쪽을 향해요.","오른쪽":"가늠쇠가 홈의 오른쪽에 붙었어요 → 총구가 오른쪽을 향해요.","가운데":"정가운데 + 수평! 완벽한 정렬이에요.","오른쪽 위":"가늠쇠가 오른쪽이면서 높아요 → 오른쪽 위로 가요."};
+  let qi=0, right=0, answered=false;
+  const qs=document.getElementById("quizSvg"), qo=document.getElementById("quizOpts"), qf=document.getElementById("quizFb");
+  function showQ(){
+    answered=false; const q=Q[qi]; qs.innerHTML=markup(q.dx,q.dy,"front");
+    document.getElementById("quizNo").textContent=`문제 ${qi+1} / ${Q.length} · 레이저는 어디에 맞을까요?`;
+    qf.textContent=""; qo.innerHTML="";
+    OPTS.forEach(o=>{ const b=document.createElement("button"); b.className="btn"; b.textContent=o; qo.appendChild(b);
+      b.onclick=()=>{ if(answered) return; answered=true;
+        if(o===q.a){ right++; b.classList.add("right"); qf.innerHTML=`<span style="color:var(--ok)">⭕ 정답! ${EXP[q.a]}</span>`; }
+        else { b.classList.add("wrong"); [...qo.children].find(x=>x.textContent===q.a).classList.add("right"); qf.innerHTML=`<span style="color:#b91c1c">❌ 정답은 '${q.a}'. ${EXP[q.a]}</span>`; }
+        document.getElementById("quizScore").textContent=`맞힌 개수 ${right} / ${qi+1}`;
+      }; });
+  }
+  document.getElementById("quizNext").onclick=()=>{ qi++; if(qi>=Q.length){ qi=0; right=0; document.getElementById("quizScore").textContent=""; } showQ(); };
+  showQ();
+})();
+
+/* ================= 5. 격발·추적 게임 ================= */
+(function(){
+  const cv=document.getElementById("game"), g=cv.getContext("2d");
+  const W=640,H=420,CX=320,CY=210,RING=18;
+  let breath=false, holdT=0, trig=false, press=0, t=0, shots=[], last=null, follow=null, active=false, msg="", msgT=0;
+  function noise(t,s){ return Math.sin(t*1.7+s)*0.5+Math.sin(t*2.9+s*2)*0.3+Math.sin(t*5.3+s*3)*0.2; }
+  function amp(){ if(!breath) return 30; if(holdT<1) return 30-22*holdT; if(holdT<6) return 8; return 8+(holdT-6)*9; }
+  function aim(){
+    const a=amp(); const by=breath?0:Math.sin(t*1.6)*26;
+    return {x:CX+noise(t*1.1,1)*a, y:CY+by+noise(t*1.3,4)*a*0.8};
+  }
+  function ringScore(x,y){ const r=Math.hypot(x-CX,y-CY); const s=11-Math.ceil(Math.max(r,.001)/RING); return Math.max(0,Math.min(10,s)); }
+  function fire(jerk){
+    if(shots.length>=10) return;
+    let p=aim();
+    if(jerk){ p.x+=-24+Math.random()*10; p.y+=55+Math.random()*25; }
+    const s=ringScore(p.x,p.y); const shot={x:p.x,y:p.y,s,ft:false,jerk};
+    shots.push(shot); last=shot; follow=jerk?null:{shot,t:0};
+    msg=jerk?"확 당겨서 아래로 빠졌어요!":`${s}점!`; msgT=1.6; press=0; updList();
+  }
+  function updList(){
+    const box=document.getElementById("shots"); box.innerHTML="";
+    for(let i=0;i<10;i++){ const sp=document.createElement("span"); const s=shots[i]; sp.textContent=s?s.s:"-"; if(s&&s.ft) sp.className="ft"; box.appendChild(sp); }
+    document.getElementById("total").textContent=shots.reduce((a,b)=>a+b.s,0);
+    const ft=shots.filter(s=>s.ft).length; document.getElementById("ftCount").textContent=shots.length?`· 추적 성공 ${ft}회`:"";
+  }
+  function draw(){
+    g.fillStyle="#0f1530"; g.fillRect(0,0,W,H);
+    g.fillStyle="#fff"; g.fillRect(CX-195,CY-195,390,390);
+    for(let n=1;n<=10;n++){ const r=RING*(11-n); g.beginPath(); g.arc(CX,CY,r,0,7); g.fillStyle=n>=7?"#151a2d":"#fff"; g.fill(); g.strokeStyle=n>=7?"#fff":"#151a2d"; g.lineWidth=1; g.stroke();
+      if(n<=8){ g.fillStyle=n>=7?"#fff":"#151a2d"; g.font="bold 11px sans-serif"; g.textAlign="center"; g.fillText(n,CX,CY-r+13); } }
+    shots.forEach((s,i)=>{ g.beginPath(); g.arc(s.x,s.y,7,0,7); g.fillStyle=s===last?"#ff3b6b":"rgba(255,170,0,.85)"; g.fill(); g.strokeStyle="#fff"; g.lineWidth=1.5; g.stroke(); });
+    if(shots.length<10){
+      const p=aim(); g.strokeStyle="#22c55e"; g.lineWidth=2.5;
+      g.beginPath(); g.arc(p.x,p.y,16,0,7); g.stroke();
+      g.beginPath(); g.moveTo(p.x-26,p.y); g.lineTo(p.x-8,p.y); g.moveTo(p.x+8,p.y); g.lineTo(p.x+26,p.y); g.moveTo(p.x,p.y-26); g.lineTo(p.x,p.y-8); g.moveTo(p.x,p.y+8); g.lineTo(p.x,p.y+26); g.stroke();
+    }
+    // 게이지
+    g.textAlign="left"; g.font="bold 13px sans-serif";
+    g.fillStyle="#c7cff0"; g.fillText("숨 멈춤",14,26);
+    g.fillStyle="#1f2a55"; g.fillRect(14,34,110,10);
+    const bc=holdT<6?"#38bdf8":holdT<8?"#f59e0b":"#ef4444"; g.fillStyle=bc; g.fillRect(14,34,Math.min(110,holdT/10*110),10);
+    g.fillStyle="#c7cff0"; g.fillText(breath?(holdT<6?"안정!":holdT<8?"슬슬 쉬어요":"너무 오래 참았어요"):"호흡 중",14,62);
+    g.fillText("방아쇠",516,26); g.fillStyle="#1f2a55"; g.fillRect(516,34,110,10); g.fillStyle="#ff3b6b"; g.fillRect(516,34,press*110,10);
+    if(follow){ g.fillStyle="#86efac"; g.fillText("추적 중… 그대로!",516,62); }
+    g.fillStyle="#c7cff0"; g.fillText(`${shots.length} / 10발`,14,H-14);
+    if(msgT>0){ g.globalAlpha=Math.min(1,msgT); g.font="900 28px sans-serif"; g.textAlign="center"; g.fillStyle="#fff"; g.fillText(msg,CX,46); g.globalAlpha=1; }
+    if(shots.length>=10){ g.fillStyle="rgba(15,21,48,.82)"; g.fillRect(0,H/2-50,W,100); g.fillStyle="#fff"; g.font="900 30px sans-serif"; g.textAlign="center"; g.fillText(`10발 합계 ${shots.reduce((a,b)=>a+b.s,0)}점`,CX,H/2+10); g.font="bold 14px sans-serif"; g.fillText("'다시 하기'를 눌러 다시 도전!",CX,H/2+36); }
+  }
+  let prev=performance.now();
+  function loop(now){
+    const dt=Math.min(.05,(now-prev)/1000); prev=now; t+=dt;
+    holdT=breath?holdT+dt:Math.max(0,holdT-dt*3);
+    if(trig && !follow && shots.length<10){ press=Math.min(1,press+dt/0.9); if(press>=1) fire(false); }
+    else if(!trig) press=Math.max(0,press-dt*3);
+    if(follow){ follow.t+=dt; if(!trig){ msg=follow.t<1?"너무 빨리 뗐어요! (추적)":msg; msgT=1.4; follow=null; } else if(follow.t>=1){ follow.shot.ft=true; msg="추적 성공 👍"; msgT=1.4; follow=null; updList(); } }
+    msgT=Math.max(0,msgT-dt);
+    draw(); requestAnimationFrame(loop);
+  }
+  function holdBtn(id,set){ const b=document.getElementById(id);
+    b.addEventListener("pointerdown",e=>{ e.preventDefault(); b.setPointerCapture(e.pointerId); set(true); b.classList.add("on"); });
+    ["pointerup","pointercancel","lostpointercapture"].forEach(ev=>b.addEventListener(ev,()=>{ set(false); b.classList.remove("on"); }));
+    b.addEventListener("contextmenu",e=>e.preventDefault()); }
+  holdBtn("bBreath",v=>breath=v); holdBtn("bTrig",v=>trig=v);
+  document.getElementById("bJerk").onclick=()=>fire(true);
+  document.getElementById("gReset").onclick=()=>{ shots=[]; last=null; follow=null; press=0; updList(); };
+  // 키보드: 게임 영역이 화면에 보일 때만
+  const sec=document.getElementById("fire");
+  new IntersectionObserver(es=>{ active=es[0].isIntersecting && es[0].intersectionRatio>0.4; },{threshold:[0,.4,.8]}).observe(sec);
+  addEventListener("keydown",e=>{ if(!active||e.repeat) return; if(e.code==="Space"){ e.preventDefault(); breath=true; } if(e.code==="KeyF"||e.code==="Enter"){ e.preventDefault(); trig=true; } });
+  addEventListener("keyup",e=>{ if(e.code==="Space") breath=false; if(e.code==="KeyF"||e.code==="Enter") trig=false; });
+  updList(); requestAnimationFrame(loop);
+})();
+
+/* ================= 6. 수업 방향 ================= */
+(function(){
+  const L=[
+    ["의탁사격 7M","실린더 X","10발 80점 이상","20발 160점","#0ea5e9"],
+    ["의탁사격 7M","실린더 X","10발 80점 이상","20발 180점","#0ea5e9"],
+    ["의탁사격 7M","실린더 O","10발 90점 이상","20발 170점","#6366f1"],
+    ["의탁사격 7M","실린더 O","10발 95점 이상","20발 180점","#6366f1"],
+    ["의탁사격 7M","실린더 O","10발 100점 이상","20발 190점","#c026d3"],
+    ["양손사격 7M","실린더 X","10발 90점 이상","20발 170점","#c026d3"],
+    ["양손사격 7M","실린더 X","10발 95점 이상","20발 180점","#db2777"],
+    ["한손사격 7M","실린더 X","최고등급 · 개인기록 경신 훈련","40발 300점","#db2777"]
+  ];
+  document.getElementById("levels").innerHTML=L.map((l,i)=>`<div class="lv"><div class="hex" style="background:${l[4]}"><div style="text-align:center"><small>Level</small>${i+1}</div></div><div><b>${l[0]} <span>(${l[1]})</span></b><span>${l[2]}</span><br><em>» ${l[3]}</em></div></div>`).join("");
+  const T=[["챌린저","Challenger",92,"#fbbf24"],["그랜드마스터","Grandmaster",90,"#f97316"],["마스터","Master",86,"#a855f7"],["다이아","Diamond",83,"#38bdf8"],["에메랄드","Emerald",79,"#10b981"],["플래티넘","Platinum",72,"#2dd4bf"],["골드","Gold",67,"#eab308"],["실버","Silver",62,"#cbd5e1"],["브론즈","Bronze",55,"#b45309"],["아이언","Iron",50,"#6b7280"]];
+  document.getElementById("tiers").innerHTML=T.map(t=>`<div class="tier"><div class="gem" style="background:${t[3]};box-shadow:0 0 12px ${t[3]}"></div><b>${t[0]} <small style="opacity:.6;font-weight:500">${t[1]}</small></b><span style="color:${t[3]}">${t[2]}점 이상</span></div>`).join("");
+})();
+</script>
+
+<!-- ================= 학생용 링크 · QR ================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  const SHORT="joo.is/dh_shoot";
+  const URL_="https://"+SHORT;
+  ["shareUrl","shareUrl2"].forEach(id=>document.getElementById(id).textContent=SHORT);
+  document.getElementById("shareOpen").href=URL_;
+  const make=(el,size)=>{
+    if(window.QRCode) new QRCode(el,{text:URL_,width:size,height:size,correctLevel:QRCode.CorrectLevel.M});
+    else el.innerHTML='<div style="display:grid;place-items:center;height:100%;font-size:12px;color:#666;text-align:center">QR은 인터넷 연결 시 표시돼요</div>';
+  };
+  make(document.getElementById("qrSmall"),256);
+  let big=false;
+  const modal=document.getElementById("qrModal");
+  document.getElementById("qrBig").onclick=()=>{
+    if(!big){make(document.getElementById("qrLarge"),720);big=true;}
+    modal.classList.add("on");
+  };
+  modal.onclick=()=>modal.classList.remove("on");
+  addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("on");});
+})();
+</script>
+
+<!-- ================= 4. 파지 3D (three.js) ================= -->
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script>
+/* 파지 설명 패널 (3D가 안 되어도 보이도록 일반 스크립트) */
+(function(){
+  const INFO={
+    one:`<h3>한손 파지 체크포인트</h3>
+      <ul class="check">
+        <li><div><b>손잡이를 높게</b> — 엄지와 검지 사이 물갈퀴를 손잡이 맨 위에 꼭 붙여요.</div></li>
+        <li><div><b>세 손가락으로 감싸기</b> — 중지·약지·소지로 악수하듯, 너무 세지 않게.</div></li>
+        <li><div><b>검지는 방아쇠에만</b> — 첫마디 가운데로 곧게 뒤로 당겨요. 몸통에 닿지 않게!</div></li>
+        <li><div><b>엄지는 편하게</b> — 힘을 빼고 앞쪽을 향해요.</div></li>
+        <li><div><b>팔·손목·총 일직선</b> — 위에서 봤을 때 팔과 총이 한 줄.</div></li>
+      </ul>
+      <div class="tip info" style="margin-top:12px">🔎 <b>‘위’</b> 버튼: 팔과 총이 일직선인지<br>🔎 <b>‘오른쪽’</b> 버튼: 검지가 방아쇠에 어떻게 걸리는지<br>🔎 <b>‘왼쪽’</b> 버튼: 엄지 위치</div>`,
+    two:`<h3>양손 파지 체크포인트</h3>
+      <ul class="check">
+        <li><div><b>먼저 오른손</b>으로 한손 파지와 똑같이 높게 잡아요.</div></li>
+        <li><div><b>왼손</b>은 오른손 손가락을 <b>위에서 감싸듯</b> 덮어요.</div></li>
+        <li><div>왼손 바닥은 손잡이 왼쪽 빈 곳에 <b>꽉 붙여요.</b></div></li>
+        <li><div>두 엄지는 <b>나란히 앞쪽</b>을 향해요.</div></li>
+        <li><div>양손이 앞뒤로 살짝 밀고 당기듯 <b>균형</b>을 잡아요.</div></li>
+      </ul>
+      <div class="tip info" style="margin-top:12px">🔎 <b>‘아래’</b>, <b>‘왼쪽’</b> 버튼으로 왼손이 오른손을 어떻게 감싸는지 확인해요.<br>🔸 진한 피부색 = 왼손(받치는 손)</div>`
+  };
+  window.__gripInfo=h=>{ document.getElementById("gripInfo").innerHTML=INFO[h]; };
+  window.__gripInfo("one");
+})();
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const canvas=document.getElementById("three"), viewer=document.getElementById("viewer");
+let renderer;
+try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); }
+catch(e){ document.getElementById("vErr").style.display="grid"; throw e; }
+renderer.setPixelRatio(Math.min(2,devicePixelRatio));
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(35,1,0.05,100);
+const controls=new OrbitControls(camera,canvas);
+controls.enableDamping=true; controls.minDistance=2; controls.maxDistance=12;
+const TARGET=new THREE.Vector3(0,-0.25,-0.4);
+controls.target.copy(TARGET);
+
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a93a8,1.1));
+const sun=new THREE.DirectionalLight(0xffffff,1.6); sun.position.set(3,5,4); scene.add(sun);
+const fill=new THREE.DirectionalLight(0xffffff,0.6); fill.position.set(-4,1,-3); scene.add(fill);
+// 바닥 그림자 느낌
+const floor=new THREE.Mesh(new THREE.CircleGeometry(4,48),new THREE.MeshBasicMaterial({color:0x9aa6c0,transparent:true,opacity:.25}));
+floor.rotation.x=-Math.PI/2; floor.position.y=-2.2; scene.add(floor);
+
+/* ---------- 권총 ---------- */
+const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:.15,...o});
+const matBody=M(0x2b2f3a), matDark=M(0x16181f), matWhite=M(0xe5e7eb), matRear=M(0x2563eb,{emissive:0x0b2a7a,emissiveIntensity:.35}), matFront=M(0xe11d48,{emissive:0x5a0a1c,emissiveIntensity:.35});
+const gun=new THREE.Group(); scene.add(gun);
+function box(w,h,d,mat,x,y,z,parent=gun,r=0.03){ const m=new THREE.Mesh(new RoundedBoxGeometry(w,h,d,3,r),mat); m.position.set(x,y,z); parent.add(m); return m; }
+box(0.30,0.36,2.0,matBody,0,0,-0.6);                 // 몸통
+box(0.24,0.05,1.0,matDark,0,0.2,-0.45,gun,0.01);     // 레일
+const tube=new THREE.Mesh(new THREE.CylinderGeometry(0.17,0.17,0.9,28),matDark); tube.rotation.x=Math.PI/2; tube.position.set(0,-0.08,-1.75); gun.add(tube);
+const muzzle=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.02,20),M(0xff3b6b,{emissive:0xff2050,emissiveIntensity:.8})); muzzle.rotation.x=Math.PI/2; muzzle.position.set(0,-0.08,-2.21); gun.add(muzzle);
+for(let i=0;i<5;i++) box(0.31,0.05,0.06,matDark,0,0.06,-1.15-i*0.12,gun,0.01);
+// 가늠쇠(앞) - 빨강
+box(0.04,0.13,0.08,matFront,0,0.245,-1.5,gun,0.008);
+// 가늠자(뒤) - 파랑 : 두 기둥 + 받침
+box(0.08,0.13,0.07,matRear,-0.08,0.245,0.3,gun,0.008);
+box(0.08,0.13,0.07,matRear, 0.08,0.245,0.3,gun,0.008);
+box(0.24,0.03,0.07,matRear,0,0.195,0.3,gun,0.005);
+// 방아쇠울 + 방아쇠
+const tg=new THREE.TorusGeometry(0.2,0.03,10,32,Math.PI); tg.rotateZ(Math.PI); tg.rotateY(Math.PI/2);
+const guard=new THREE.Mesh(tg,matWhite); guard.position.set(0,-0.18,-0.45); gun.add(guard);
+const trigger=box(0.05,0.2,0.05,M(0x111111),0,-0.29,-0.45,gun,0.015); trigger.rotation.x=-0.25;
+// 손잡이 (뒤로 기울어짐)
+const grip=new THREE.Group(); grip.position.set(0,-0.18,0.15); grip.rotation.x=-0.28; gun.add(grip);
+box(0.34,1.3,0.6,M(0x1f232c),0,-0.65,0,grip,0.08);
+box(0.42,0.12,0.78,matDark,0,-1.33,-0.02,grip,0.03);
+
+/* ---------- 손 ---------- */
+const skinR=new THREE.MeshStandardMaterial({color:0xf1c27d,roughness:.7});
+const skinL=new THREE.MeshStandardMaterial({color:0xc98d55,roughness:.7});
+const handR=new THREE.Group(), handL=new THREE.Group(); gun.add(handR); gun.add(handL);
+const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+function finger(points,r,mat,parent,space=gun){
+  // points: grip-local(space=grip) 또는 gun 좌표
+  const pts=points.map(p=>{ const v=V(...p); if(space===grip){ v.applyEuler(grip.rotation).add(grip.position); } return v; });
+  const curve=new THREE.CatmullRomCurve3(pts);
+  const g=new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(curve,40,r,14),mat));
+  const a=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),mat); a.position.copy(pts[0]); g.add(a);
+  const b=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),mat); b.position.copy(pts[pts.length-1]); g.add(b);
+  parent.add(g); return g;
+}
+function blob(p,s,mat,parent,space=gun){ const m=new THREE.Mesh(new THREE.SphereGeometry(1,24,18),mat); const v=V(...p); if(space===grip) v.applyEuler(grip.rotation).add(grip.position); m.position.copy(v); m.scale.set(...s); if(space===grip) m.rotation.copy(grip.rotation); parent.add(m); return m; }
+function limb(a,b,r1,r2,mat,parent){ const A=V(...a),B=V(...b); const len=A.distanceTo(B); const m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,len,20),mat); m.position.copy(A).add(B).multiplyScalar(.5); m.quaternion.setFromUnitVectors(V(0,1,0),B.clone().sub(A).normalize()); parent.add(m); return m; }
+
+// 오른손: 손바닥(오른쪽 면 + 뒤쪽), 물갈퀴는 높게
+blob([0.25,-0.42,0.12],[0.10,0.40,0.30],skinR,handR,grip);
+blob([0.07,-0.40,0.38],[0.23,0.44,0.13],skinR,handR,grip);
+blob([0.05,-0.03,0.36],[0.17,0.10,0.14],skinR,handR,grip);
+// 중지·약지·소지: 오른쪽 → 앞 → 왼쪽으로 감싸기
+[[-0.30,0.078],[-0.50,0.074],[-0.69,0.064]].forEach(([y,r],i)=>{
+  finger([[0.27,y,0.14],[0.28,y,-0.2],[0.17,y,-0.39],[0.0,y,-0.42],[-0.17,y,-0.37],[-0.25,y,-0.18+i*0.04]],r,skinR,handR,grip);
+});
+// 검지: 방아쇠에 첫마디
+finger([[0.27,-0.30,0.24],[0.28,-0.31,-0.08],[0.24,-0.33,-0.38],[0.12,-0.34,-0.53],[0.03,-0.33,-0.545]],0.07,skinR,handR);
+// 엄지: 왼쪽 면을 따라 앞으로, 힘 빼고
+finger([[-0.10,-0.14,0.48],[-0.24,-0.12,0.22],[-0.27,-0.10,-0.06],[-0.26,-0.09,-0.28]],0.08,skinR,handR);
+// 손목·팔 (총과 일직선)
+limb([0.09,-0.42,0.62],[0.12,-0.6,2.9],0.21,0.27,skinR,handR);
+
+// 왼손(양손 파지): 오른손 손가락을 덮어 감싸기
+blob([-0.31,-0.48,0.02],[0.10,0.40,0.32],skinL,handL,grip);
+[[-0.28,0.072],[-0.45,0.07],[-0.61,0.068],[-0.76,0.06]].forEach(([y,r])=>{
+  finger([[-0.33,y,0.08],[-0.32,y,-0.32],[-0.12,y,-0.52],[0.14,y,-0.5],[0.32,y,-0.32]],r,skinL,handL,grip);
+});
+finger([[-0.30,-0.34,0.32],[-0.34,-0.27,0.02],[-0.33,-0.24,-0.3]],0.075,skinL,handL);
+limb([-0.36,-0.68,0.42],[-0.9,-1.0,2.8],0.2,0.25,skinL,handL);
+handL.visible=false;
+
+/* ---------- 조준선·레이저 ---------- */
+const lines=new THREE.Group(); lines.visible=false; gun.add(lines);
+const eye=V(0,0.31,3.2);
+{ const g=new THREE.BufferGeometry().setFromPoints([eye,V(0,0.31,-8)]);
+  const l=new THREE.Line(g,new THREE.LineDashedMaterial({color:0x16a34a,dashSize:.12,gapSize:.08})); l.computeLineDistances(); lines.add(l);
+  const beam=new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,6,8),new THREE.MeshBasicMaterial({color:0xff2050}));
+  beam.rotation.x=Math.PI/2; beam.position.set(0,-0.08,-5.2); lines.add(beam);
+  const eyeM=new THREE.Mesh(new THREE.SphereGeometry(0.07,16,12),new THREE.MeshBasicMaterial({color:0x16a34a})); eyeM.position.copy(eye); lines.add(eyeM); }
+
+/* ---------- 이름표 ---------- */
+const LAB=[
+  {t:"가늠자(뒤)",p:V(0,0.33,0.3),c:"r"},
+  {t:"가늠쇠(앞)",p:V(0,0.33,-1.5),c:"f"},
+  {t:"검지 → 방아쇠",p:V(0.06,-0.36,-0.56)},
+  {t:"엄지(편하게)",p:V(-0.3,-0.04,-0.2)},
+  {t:"높게 잡기",p:V(0.05,0.0,0.55)},
+  {t:"팔·총 일직선",p:V(0.11,-0.5,1.6)},
+  {t:"왼손이 감싸기",p:V(-0.4,-0.6,-0.2),two:true}
+];
+const labBox=document.getElementById("vLabels");
+LAB.forEach(l=>{ l.el=document.createElement("div"); l.el.className="v-lab "+(l.c||""); l.el.textContent=l.t; labBox.appendChild(l.el); });
+let showLab=true, two=false;
+
+/* ---------- 시점 ---------- */
+const VIEWS={eye:V(0.35,1.1,4.6),right:V(4.6,0.1,-0.4),left:V(-4.6,0.1,-0.4),top:V(0.001,5,-0.35),bottom:V(0.001,-4.6,-0.35),angle:V(3.2,2.2,3.2),front:V(1.2,0.6,-5.4)};
+let tween=null;
+// 화면이 좁으면 조금 더 멀리서 보기
+const fit=v=>VIEWS[v].clone().sub(TARGET).multiplyScalar(Math.min(1.8,Math.max(1,1.45/camera.aspect))).add(TARGET);
+function go(v){ const from=camera.position.clone(), to=fit(v); tween={from,to,t0:performance.now()};
+  document.getElementById("vWarn").style.display=v==="front"?"block":"none";
+  document.querySelectorAll("#viewBtns .btn").forEach(b=>b.classList.toggle("on",b.dataset.v===v)); }
+requestAnimationFrame(()=>camera.position.copy(fit("eye")));
+document.querySelectorAll("#viewBtns .btn").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+/* ---------- 버튼 ---------- */
+document.querySelectorAll("#handSeg button").forEach(b=>b.onclick=()=>{
+  two=b.dataset.h==="two"; handL.visible=two;
+  document.querySelectorAll("#handSeg button").forEach(x=>x.classList.toggle("on",x===b)); window.__gripInfo(b.dataset.h); });
+const tl=document.getElementById("tglLabel"); tl.onclick=()=>{ showLab=!showLab; tl.textContent=showLab?"이름표 끄기":"이름표 켜기"; };
+const tgh=document.getElementById("tglGhost"); let ghost=false;
+tgh.onclick=()=>{ ghost=!ghost; [skinR,skinL].forEach(m=>{ m.transparent=ghost; m.opacity=ghost?.38:1; m.depthWrite=!ghost; m.needsUpdate=true; }); tgh.classList.toggle("on",ghost); };
+const tln=document.getElementById("tglLine"); tln.onclick=()=>{ lines.visible=!lines.visible; tln.classList.toggle("on",lines.visible); };
+const tsp=document.getElementById("tglSpin"); tsp.onclick=()=>{ controls.autoRotate=!controls.autoRotate; controls.autoRotateSpeed=2; tsp.classList.toggle("on",controls.autoRotate); };
+
+/* ---------- 렌더 ---------- */
+function resize(){ const w=viewer.clientWidth,h=viewer.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(viewer); resize();
+const tmp=new THREE.Vector3(), ray=new THREE.Raycaster();
+let solids=[];
+const shown=o=>{ for(;o;o=o.parent) if(!o.visible) return false; return true; };
+function collectSolids(){ solids=[]; gun.traverse(o=>{ if(o.isMesh && shown(o) && !lines.children.includes(o) && !(ghost && (o.material===skinR||o.material===skinL))) solids.push(o); }); }
+setInterval(collectSolids,300); collectSolids();
+function frame(now){
+  if(tween){ const k=Math.min(1,(now-tween.t0)/700), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    camera.position.lerpVectors(tween.from,tween.to,e); if(k>=1) tween=null; }
+  controls.update(); renderer.render(scene,camera);
+  const w=viewer.clientWidth,h=viewer.clientHeight;
+  LAB.forEach(l=>{ const vis=showLab && (!l.two||two); if(!vis){ l.el.style.display="none"; return; }
+    // 손이나 총에 가려진 이름표는 흐리게
+    const d=camera.position.distanceTo(l.p); ray.set(camera.position,l.p.clone().sub(camera.position).normalize()); ray.far=d-0.06;
+    const hidden=ray.intersectObjects(solids,false).length>0; l.el.style.opacity=hidden?.22:1;
+    tmp.copy(l.p).project(camera); if(tmp.z>1){ l.el.style.display="none"; return; }
+    l.el.style.display="block"; l.el.style.left=((tmp.x+1)/2*w)+"px"; l.el.style.top=((1-tmp.y)/2*h)+"px"; });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
